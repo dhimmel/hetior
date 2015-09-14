@@ -3,4 +3,5 @@
 export(calc_vtms)
 export(glmnet_coefs)
 export(glmnet_predict)
+export(glmnet_train)
 export(prune_prc)
