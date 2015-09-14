@@ -1,0 +1,12 @@
+Package: hetior
+Title: Machine learning tools for hetnet edge prediction
+Version: 0.0.0.9000
+Authors@R: person("Daniel", "Himmelstein", email = "daniel.himmelstein@gmail.com", role = c("aut", "cre"))
+Description: Heterogeneous network edge prediction modeling
+Depends: R (>= 3.2.1)
+Imports:
+    ROCR (>= 1.0.7),
+    caTools (>= 1.17.1),
+    glmnet (>= 2.0.2)
+License: CC0
+LazyData: true
