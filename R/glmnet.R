@@ -1,15 +1,20 @@
 #' Train a regularized logistic regression model.
 #'
 #' @export
-glmnet_train <- function(X, y, alpha=1, s='lambda.1se', cores=7, seed=0) {
+glmnet_train <- function(X, y, w, alpha=1, s='lambda.1se', cores=7, seed=0) {
   # Fit a regularized logistic regression model using the glmnet package.
   # alpha is the regularization parameter (0 for ridge, 1 for lasso).
-  fit <- list(X=X, y=y, s=s, alpha=alpha, seed=seed)
+
+  if (missing(w)) {
+    w <- rep(1, length(y))
+  }
+
+  fit <- list(X=X, y=y, w=w, s=s, alpha=alpha, seed=seed)
 
   # train model
   doMC::registerDoMC(cores=cores)
   set.seed(seed)
-  fit$cv_model <- glmnet::cv.glmnet(X, y, family='binomial',
+  fit$cv_model <- glmnet::cv.glmnet(x = X, y = y, weights = w, family='binomial',
     alpha=alpha, standardize=TRUE, parallel=TRUE)
   fit$lambda <- fit$cv_model[[s]]
 
