@@ -19,7 +19,7 @@ glmnet_train <- function(X, y, w, alpha=1, s='lambda.1se', cores=7, seed=0) {
   fit$lambda <- fit$cv_model[[s]]
 
   # model information and performance
-  fit$coef_df <- glmnet_coefs(fit$cv_model, X, y)
+  fit$coef_df <- glmnet_coefs(fit$cv_model, X, y, s=s)
   fit$y_pred <- glmnet_predict(fit$cv_model, X, s=s)
   fit$vtm <- hetior::calc_vtms(y_true=y, y_pred=fit$y_pred)
 
