@@ -17,7 +17,7 @@ calc_vtms <- function(y_true, y_pred) {
     'lift'=ROCR::performance(rocr_pred, measure='lift')@y.values[[1]],
     stringsAsFactors=FALSE
   )
- 
+
   auroc <- ROCR::performance(rocr_pred, 'auc')@y.values[[1]]
   roc_df <- prune_roc(threshold_df[, c('fpr', 'recall')])
 
@@ -68,4 +68,19 @@ prune_prc <- function(prc_df, min_distance=0.0005) {
   })
   prc_df <- prc_df[c(1, unique(as_index)), ]
   return(prc_df)
+}
+
+
+#' Compute the coefficient of discrimination.
+#'
+#' Compute Tjur's R-squared. See https://doi.org/10.1198/tast.2009.08210
+#'
+#' @param y_true true binary labels in binary label indicators
+#' @param y_pred target scores, can either be probability estimates of
+#'     the positive class, confidence values, or binary decisions.
+#' @export
+get_tjur <- function(y_true, y_pred) {
+  is_pos = as.logical(y_true)
+  tjur = mean(y_pred[is_pos]) - mean(y_pred[! is_pos])
+  return(tjur)
 }
