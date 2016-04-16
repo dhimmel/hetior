@@ -1,7 +1,7 @@
 #' Train a regularized logistic regression model.
 #'
 #' @export
-glmnet_train <- function(X, y, w, alpha=1, s='lambda.1se', cores=7, seed=0) {
+glmnet_train <- function(X, y, w, alpha=1, s='lambda.1se', cores=7, seed=0, ...) {
   # Fit a regularized logistic regression model using the glmnet package.
   # alpha is the regularization parameter (0 for ridge, 1 for lasso).
 
@@ -15,13 +15,13 @@ glmnet_train <- function(X, y, w, alpha=1, s='lambda.1se', cores=7, seed=0) {
   doMC::registerDoMC(cores=cores)
   set.seed(seed)
   fit$cv_model <- glmnet::cv.glmnet(x = X, y = y, weights = w, family='binomial',
-    alpha=alpha, standardize=TRUE, parallel=TRUE)
+    alpha=alpha, standardize=TRUE, parallel=TRUE, ...)
   fit$lambda <- fit$cv_model[[s]]
 
   # model information and performance
   fit$coef_df <- glmnet_coefs(fit$cv_model, X, y, s=s)
   fit$y_pred <- glmnet_predict(fit$cv_model, X, s=s)
-  fit$vtm <- hetior::calc_vtms(y_true=y, y_pred=fit$y_pred)
+  fit$vtm <- hetior::calc_vtms(y_true=y, y_pred=fit$y_pred, is_prob=TRUE)
 
   return(fit)
 }

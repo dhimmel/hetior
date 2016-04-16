@@ -4,7 +4,8 @@
 \alias{glmnet_train}
 \title{Train a regularized logistic regression model.}
 \usage{
-glmnet_train(X, y, w, alpha = 1, s = "lambda.1se", cores = 7, seed = 0)
+glmnet_train(X, y, w, alpha = 1, s = "lambda.1se", cores = 7, seed = 0,
+  ...)
 }
 \description{
 Train a regularized logistic regression model.

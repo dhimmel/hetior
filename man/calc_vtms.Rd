@@ -4,13 +4,16 @@
 \alias{calc_vtms}
 \title{Compute variable threshold metrics for classifier performance.}
 \usage{
-calc_vtms(y_true, y_pred)
+calc_vtms(y_true, y_pred, is_prob = FALSE)
 }
 \arguments{
 \item{y_true}{true binary labels in binary label indicators}
 
 \item{y_pred}{target scores, can either be probability estimates of
 the positive class, confidence values, or binary decisions.}
+
+\item{is_prob}{whether predictions (y_pred) are probabilities. If so
+additional metrics are computed}
 }
 \description{
 Compute roc and prc curves as well as AUCs (area under the curves).

@@ -5,8 +5,10 @@
 #' @param y_true true binary labels in binary label indicators
 #' @param y_pred target scores, can either be probability estimates of
 #'     the positive class, confidence values, or binary decisions.
+#' @param is_prob whether predictions (y_pred) are probabilities. If so
+#'     additional metrics are computed
 #' @export
-calc_vtms <- function(y_true, y_pred) {
+calc_vtms <- function(y_true, y_pred, is_prob = FALSE) {
   rocr_pred <- ROCR::prediction(predictions=y_pred, labels=y_true)
 
   threshold_df <- data.frame(
@@ -24,7 +26,17 @@ calc_vtms <- function(y_true, y_pred) {
   trapz_df <- na.omit(threshold_df[, c('recall', 'precision')])
   auprc <- caTools::trapz(trapz_df$recall, trapz_df$precision)
 
-  metrics <- list('auroc'=auroc, 'auprc'=auprc, 'threshold_df'=threshold_df, 'roc_df'=roc_df)
+  metrics <- list(
+    'auroc'=auroc,
+    'auprc'=auprc,
+    'threshold_df'=threshold_df,
+    'roc_df'=roc_df
+  )
+
+  if (is_prob) {
+    metrics$tjur = get_tjur(y_true, y_pred)
+  }
+
   return(metrics)
 }
 
