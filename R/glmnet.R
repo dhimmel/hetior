@@ -39,10 +39,11 @@ glmnet_train <- function(X, y, w, alpha=1, s='lambda.1se', cores=7, seed=0, ...)
 #' @export
 glmnet_coefs <- function(cv_glmnet, X, y, s='lambda.1se', prepend='', ...) {
   lambda <- cv_glmnet[[s]]
-  coef.vec <- coef(cv_glmnet, s=lambda)[, 1]
-  zcoef.vec <- c(0, coef.vec[-1] * apply(X, 2, sd) / sd(y))
+  coef_vec <- coef(cv_glmnet, s=lambda)[, 1]
+  z_intercept <- coef_vec[1] + sum(coef_vec[-1] * apply(X, 2, mean))
+  zcoef_vec <- c(z_intercept, coef_vec[-1] * apply(X, 2, sd))
   coef_df <- data.frame('feature'=c('intercept', colnames(X)), ...,
-    'coef'=coef.vec, 'zcoef'=zcoef.vec, row.names=NULL, stringsAsFactors=FALSE)
+    'coef'=coef_vec, 'zcoef'=zcoef_vec, row.names=NULL, stringsAsFactors=FALSE)
   colnum <- ncol(coef_df)
   colnames(coef_df)[c(colnum - 1, colnum)] <- paste0(prepend, c('coef', 'zcoef'))
   return(coef_df)
