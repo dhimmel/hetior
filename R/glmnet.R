@@ -15,7 +15,7 @@ glmnet_train <- function(X, y, w, alpha=1, s='lambda.1se', cores=7, seed=0, ...)
   doMC::registerDoMC(cores=cores)
   set.seed(seed)
   fit$cv_model <- glmnet::cv.glmnet(x = X, y = y, weights = w, family='binomial',
-    alpha=alpha, standardize=TRUE, parallel=TRUE, ...)
+    alpha=alpha, parallel=TRUE, ...)
   fit$lambda <- fit$cv_model[[s]]
 
   # model information and performance
