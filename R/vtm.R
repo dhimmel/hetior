@@ -9,6 +9,17 @@
 #'     additional metrics are computed
 #' @export
 calc_vtms <- function(y_true, y_pred, is_prob = FALSE) {
+  if(length(unique(y_true)) < 2) {
+    metrics <- list(
+      'auroc'=NA,
+      'auprc'=NA
+    )
+    if (is_prob) {
+      metrics$tjur = NA
+    }
+    return(metrics)
+  }
+
   rocr_pred <- ROCR::prediction(predictions=y_pred, labels=y_true)
 
   threshold_df <- data.frame(
