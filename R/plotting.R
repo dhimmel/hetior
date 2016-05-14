@@ -7,6 +7,7 @@
 #' @export
 theme_dhimmel <- function(base_size = 11.5, base_family = "") {
   # Starts with theme_bw and then modify some parts
+  # Theme options are documentated at http://docs.ggplot2.org/current/theme.html
   ggplot2::theme_bw(base_size = base_size, base_family = base_family) %+replace%
     ggplot2::theme(
       # background of facet labels (element_rect; inherits from rect)
@@ -14,6 +15,8 @@ theme_dhimmel <- function(base_size = 11.5, base_family = "") {
       # margin around entire plot (unit with the sizes of the top, right, bottom, and left margins)
       plot.margin       = grid::unit(c(2, 6, 2, 2), 'points'),
       # extra space added around legend (unit)
-      legend.margin     = grid::unit(0, 'points')
+      legend.margin     = grid::unit(0.1, 'cm'),
+      # background underneath legend keys (element_rect; inherits from rect)
+      legend.key        = ggplot2::element_blank()
     )
 }
