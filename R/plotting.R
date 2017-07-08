@@ -13,10 +13,11 @@ theme_dhimmel <- function(base_size = 11.5, base_family = "") {
       # background of facet labels (element_rect; inherits from rect)
       strip.background  = ggplot2::element_rect(fill = '#fef2e2', colour = 'grey50', size = 0.2),
       # margin around entire plot (unit with the sizes of the top, right, bottom, and left margins)
-      plot.margin       = grid::unit(c(2, 6, 2, 2), 'points'),
+      plot.margin       = ggplot2::margin(t=2, r=2, b=2, l=2, unit='pt'),
       # extra space added around legend (unit)
-      legend.margin     = grid::unit(0.1, 'cm'),
+      legend.spacing     = grid::unit(0.1, 'cm'),
       # background underneath legend keys (element_rect; inherits from rect)
       legend.key        = ggplot2::element_blank()
     )
 }
+
